@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AspNetCoreMVC.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AspNetCoreMVC.Controllers {
+	public class BooksController : Controller {
+
+		public IActionResult Index() {
+			return View();
+		}
+
+		public IActionResult Details() {
+			var book = new Book {
+				Id = 1,
+				Title = "Learning ASP.NET Core 2.0",
+				Genre = "Programming & Software Development",
+				Price = 45,
+				PublishDate = new DateTime(2012, 04, 23),
+				Authors = new List<string> { "Jason De Oliveira", "Michel Bruchet" }
+			};
+
+			return View(book);
+		}
+
+		public IActionResult Create() {
+			return View();
+		}
+
+		[HttpPost()]
+		[ValidateAntiForgeryToken]
+		public IActionResult Create(Book book) {
+			if (ModelState.IsValid) {
+				return RedirectToAction("Index");
+			}
+
+			return View(book);
+		}
+
+	}
+}
